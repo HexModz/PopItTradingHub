@@ -1,5 +1,3 @@
-repeat game:GetService("RunService").Stepped:wait()
-until game:IsLoaded()
 
 
 local PopItTradingHub = Instance.new("ScreenGui")
@@ -19,7 +17,7 @@ local Scroll2 = Instance.new("ScrollingFrame")
 
 
 PopItTradingHub.Name = "Pop It Trading Hub"
-PopItTradingHub.Parent = game.PlayerGui
+PopItTradingHub.Parent = game.CoreGui
 PopItTradingHub.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Main.Name = "Main"
