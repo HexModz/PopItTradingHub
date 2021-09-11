@@ -71,6 +71,18 @@ DupeButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 DupeButton.TextSize = 30.000
 DupeButton.TextWrapped = true
 
+DupeButton1.MouseButton1Down:connect(function()
+	for i = 1,30 do
+	for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v.ClassName == "Tool" then
+			game:GetService("ReplicatedStorage").RemoteEvents.Equip:FireServer(v.Name)
+			game:GetService("ReplicatedStorage").RemoteEvents.Drop:FireServer(v.Name)
+	
+		end
+	end
+end
+end)
+
 UICorner_4.CornerRadius = UDim.new(0, 20)
 UICorner_4.Parent = DupeButton
 
@@ -90,20 +102,3 @@ Scroll2.BackgroundTransparency = 1.000
 Scroll2.Position = UDim2.new(0.529999971, 0, 0.192307696, 0)
 Scroll2.Size = UDim2.new(0, 209, 0, 188)
 Scroll2.ScrollBarThickness = 6
-
--- Scripts:
-
-local function DupeScript() 
-	local script = Instance.new('Script', DupeButton)
-
-	for i = 1,30 do
-		for _,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-			if v.ClassName == "Tool" then
-				game:GetService("ReplicatedStorage").RemoteEvents.Equip:FireServer(v.Name)
-				game:GetService("ReplicatedStorage").RemoteEvents.Drop:FireServer(v.Name)
-	
-			end
-		end
-	end
-end
-coroutine.wrap(DupeScript)()
