@@ -98,3 +98,71 @@ Scroll2.BackgroundTransparency = 1.000
 Scroll2.Position = UDim2.new(0.529999971, 0, 0.192307696, 0)
 Scroll2.Size = UDim2.new(0, 209, 0, 188)
 Scroll2.ScrollBarThickness = 6
+
+local function DragScript()
+	local script = Instance.new('LocalScript', Main)
+
+	local UIS = game:GetService("UserInputService")
+	function draggable(Main)
+		dragToggle = nil
+		local dragSpeed = 3
+		dragInput = nil
+		dragStart = nil
+		local dragPos = nil
+		function updateInput(input)
+			local Delta = input.Position - dragStart
+			local Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + Delta.X, startPos.Y.Scale, startPos.Y.Offset + Delta.Y)
+			game:GetService("TweenService"):Create(Main, TweenInfo.new(0.25), {Position = Position}):Play()
+		end
+
+		Main.InputBegan:Connect(function(input)
+			if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and UIS:GetFocusedTextBox() == nil then
+				dragToggle = true
+				dragStart = input.Position
+				startPos = Main.Position
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						dragToggle = false
+					end
+				end)
+			end
+		end)
+
+		Main.InputChanged:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				dragInput = input
+			end
+		end)
+		game:GetService("UserInputService").InputChanged:Connect(function(input)
+			if input == dragInput and dragToggle then
+				updateInput(input)
+			end
+		end)
+	end
+	draggable(script.Parent)
+end
+
+coroutine.wrap(DragScript)()
+
+local function CloseScript()
+	local script = Instance.new('LocalScript', ScreenGui)
+
+	local plrs = game:GetService("Players")
+	local Main = script.Parent
+	local open = false
+	local plr = plrs.LocalPlayer
+	local mouse = plr:GetMouse()
+	function press(key)
+		if (key == "v") then
+			if (open == true) then
+				Main.Enabled = false
+				open = false
+			elseif (open == false) then
+				Main.Enabled = true
+				open = true
+			end
+		end
+	end
+	mouse.KeyDown:Connect(press)
+end
+coroutine.wrap(CloseScript)()
